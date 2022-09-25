@@ -5,7 +5,10 @@ namespace PONG_AdocaoAnimais
     internal class Program
     {
         static void Main(string[] args)
-        {
+
+        {   Conexao conexao = new Conexao();
+            conexao.ConectarBanco(); 
+
             MenuInicial();
 
             void MenuInicial()
@@ -33,6 +36,7 @@ namespace PONG_AdocaoAnimais
 
             void MenuPessoa()
             {
+                Pessoa pessoa = new Pessoa();
                 Console.WriteLine("Menu Pessoa\n");
                 Console.WriteLine("Digite a opção desejada:\n1-Cadastrar\n2-Editar cadastro existente\n3-Consultar Cadastro" +
                     "\n4-Menu Inicial\n5-Menu Animal");
@@ -43,7 +47,7 @@ namespace PONG_AdocaoAnimais
                 {
                     switch (opcPessoa)
                     {
-                        case 1: // Cadastrar()
+                        case 1: pessoa.CadastrarPessoa();
                             break;
                         case 2: //Editar()
                             break;
