@@ -51,9 +51,9 @@ namespace PONG_AdocaoAnimais
             cmd.ExecuteNonQuery();
         }
 
-        public void ConsultarCadastroPessoa(SqlConnection sqlConnection)
+        public void ConsultarPessoa(SqlConnection sqlConnection)
         {
-            Console.WriteLine("Digite o CPF: ");
+            Console.WriteLine("\nDigite o CPF: ");
             string Cpf = Console.ReadLine();
 
             SqlCommand cmd = new SqlCommand();
@@ -66,6 +66,7 @@ namespace PONG_AdocaoAnimais
 
             cmd.Connection = sqlConnection;
             cmd.ExecuteNonQuery();
+
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
@@ -86,8 +87,9 @@ namespace PONG_AdocaoAnimais
                 }
             }
         }
-        public void EditarCadastroPessoa()
+        public void EditarPessoa(SqlConnection sqlConnection)
         {
+
 
         }
     }

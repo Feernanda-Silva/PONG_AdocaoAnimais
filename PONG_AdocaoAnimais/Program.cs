@@ -9,20 +9,19 @@ namespace PONG_AdocaoAnimais
 
         {
             Conexao conexao = new Conexao();
-
-            SqlConnection sqlConnection = conexao.ConectarBanco();
+             SqlConnection sqlConnection = conexao.ConectarBanco();
 
             MenuInicial();
 
             void MenuInicial()
             {
-                Console.WriteLine("Menu Inicial\n");
+                Console.WriteLine("\nMenu Inicial\n");
                 Console.WriteLine("Digite a opção desejada:\n1-Menu Pessoa\n2-Menu Animal");
                 int opcInicial = int.Parse(Console.ReadLine());
 
                 while (opcInicial != 1 && opcInicial != 2)
                 {
-                    Console.WriteLine("Digite uma opção válida!");
+                    Console.WriteLine("\nDigite uma opção válida!");
                     opcInicial = int.Parse(Console.ReadLine());
                 }
 
@@ -56,7 +55,7 @@ namespace PONG_AdocaoAnimais
                             break;
                         case 2: //Editar()
                             break;
-                        case 3: pessoa.ConsultarCadastroPessoa(sqlConnection);
+                        case 3: pessoa.ConsultarPessoa(sqlConnection);
                             break;
                         case 4:
                             MenuInicial();
@@ -76,25 +75,25 @@ namespace PONG_AdocaoAnimais
 
                 do
                 {
-                    Console.WriteLine("Menu Animal\n");
-                    Console.WriteLine("Digite a opção desejada:\n1-Cadastrar Animal\n2-Editar Cadastro Animal\n3-Consultar Cadastro Animal" +
-                        "\n4-Cadastrar Familia\n5-Consultar Familias Existentes\n6-Menu Pessoa\n7-Cadastrar Familia");
+                    Console.WriteLine("\nMenu Animal\n");
+                    Console.WriteLine("Digite a opção desejada:\n1-Cadastrar Animal\n2-Editar Animal\n3-Consultar Animal" +
+                        "\n4-Cadastrar Familia\n5-Consultar Familias Existentes\n6-Adoção\n7-Menu Inicial\n8-Menu Pessoa");
                     opcAnimal = int.Parse(Console.ReadLine());
 
                     switch (opcAnimal)
                     {
                         case 1: animal.CadastrarAnimal(sqlConnection);
                             break;
-                        case 2: //EditarAnimal();
+                        case 2: animal.EditarAnimal(sqlConnection);
                             break;
-                        case 3: //ConsultarAnimal(); 
+                        case 3: animal.ConsultarAnimal(sqlConnection); 
                             break;
                         case 4:familia.CadastrarFamilia(sqlConnection);
                             break;
                         case 5:
                             familia.ConsultarFamilia(sqlConnection);
                             break;
-                        case 6: //EfetuarAdoção(); 
+                        case 6: //EfetuarAdocao(); 
                             break;
                         case 7:
                             MenuInicial();

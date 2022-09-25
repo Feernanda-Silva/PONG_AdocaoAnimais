@@ -27,7 +27,7 @@ namespace PONG_AdocaoAnimais
 
         public void CadastrarAnimal(SqlConnection sqlConnection)
         {
-            this.familia= new Familia(); 
+            this.familia = new Familia();
 
             Console.WriteLine("Numero do Chip: ");
             this.Chip = int.Parse(Console.ReadLine());
@@ -35,7 +35,7 @@ namespace PONG_AdocaoAnimais
             this.Raca = Console.ReadLine();
             Console.WriteLine("Sexo(M/F): ");
             this.Sexo = char.Parse(Console.ReadLine());
-            while (this.Sexo != 'M' && this.Sexo!= 'F')
+            while (this.Sexo != 'M' && this.Sexo != 'F')
             {
                 Console.WriteLine("Campo inválido");
                 Console.WriteLine("Digite novamente!");
@@ -59,7 +59,7 @@ namespace PONG_AdocaoAnimais
             else
             {
 
-                this.Nome = "Sem Nome"; 
+                this.Nome = "Sem Nome";
             }
 
             SqlCommand cmd = new SqlCommand();
@@ -76,12 +76,131 @@ namespace PONG_AdocaoAnimais
 
         }
 
-        public void EditarCadastroAnimal()
+        public void ConsultarAnimal(SqlConnection sqlConnection)
         {
+            Console.WriteLine("\nDigite o código do chip para localizar o animal: ");
+            int chip = int.Parse(Console.ReadLine());
 
+            SqlCommand cmd = new SqlCommand();
+
+            cmd.CommandText = "SELECT Animal.CHIP, Animal.Raca, Animal.Sexo, Animal.Nome, Animal.CPF, Familia.Cod_Familia, Familia.Tipo FROM Animal, Familia WHERE Animal.CHIP = @CHIP;";
+            cmd.Parameters.AddWithValue("@CHIP", System.Data.SqlDbType.VarChar).Value = chip;
+
+            cmd.Connection = sqlConnection;
+            cmd.ExecuteNonQuery();
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    Console.WriteLine("\nChip: {0}", reader.GetInt32(0));
+                    Console.WriteLine("Raça: {0}", reader.GetString(1));
+                    Console.WriteLine("Sexo: {0}", reader.GetString(2));
+                    Console.WriteLine("Nome do animal: {0}", reader.GetString(3));
+                    if (reader.IsDBNull(4))
+                    {
+                        Console.WriteLine("Cpf: Não possui tutor");
+                    }
+
+                    else
+                    {
+                        Console.WriteLine("Cpf do tutor: {0}", reader?.GetString(4));
+                    }
+
+                    Console.WriteLine("Cod_Familia: {0}", reader.GetInt32(5));
+                    Console.WriteLine("Tipo de familia: {0}", reader.GetString(6));
+                }
+
+            }
         }
 
+        public void EditarAnimal(SqlConnection sqlConnection)
+        {
+            SqlCommand cmd = new SqlCommand();
 
+            Console.WriteLine("\nDigite o código do chip para localizar o animal: ");
+            int chip = int.Parse(Console.ReadLine());
+
+
+            Console.WriteLine("\nDigite o número do campo que deseja editar: ");
+            Console.WriteLine("1-Raça: ");
+            Console.WriteLine("2-Sexo: ");
+            Console.WriteLine("3- Nome do Animal: ");
+            Console.WriteLine("4-Código Familia: ");
+            int opc = int.Parse(Console.ReadLine());
+
+            switch (opc)
+            {
+                case 1:
+                    EditarRaca();
+                    break;
+                case 2:
+                    EditarSexo();
+                    break;
+                case 3:
+                    EditarNomeAnimal();
+                    break;
+                case 4:
+                    EditarCod_Familia();
+                    break;
+            }
+
+            void EditarRaca()
+            {
+                Console.WriteLine("Raça: ");
+                string raca = Console.ReadLine();
+                cmd.CommandText = "UPDATE Animal SET Raca = @Raca WHERE Animal.CHIP = @CHIP;";
+                cmd.Parameters.AddWithValue("@CHIP", System.Data.SqlDbType.VarChar).Value = chip;
+                cmd.Parameters.AddWithValue("@Raca", System.Data.SqlDbType.VarChar).Value = raca;
+
+                cmd.Connection = sqlConnection;
+                cmd.ExecuteNonQuery();
+
+            }
+
+            void EditarSexo()
+            {
+                Console.WriteLine("Sexo: ");
+                string sexo = Console.ReadLine();
+
+                cmd.CommandText = "UPDATE Animal SET Sexo = @Sexo WHERE Animal.CHIP = @CHIP;";
+                cmd.Parameters.AddWithValue("@CHIP", System.Data.SqlDbType.VarChar).Value = chip;
+                cmd.Parameters.AddWithValue("@Sexo", System.Data.SqlDbType.VarChar).Value = sexo;
+
+                cmd.Connection = sqlConnection;
+                cmd.ExecuteNonQuery();
+            }
+
+            void EditarNomeAnimal()
+            {
+                Console.WriteLine("Nome do Animal: ");
+                string nome = Console.ReadLine();
+
+                SqlCommand cmd = new SqlCommand();
+
+                cmd.CommandText = "UPDATE Animal SET Nome = @Nome WHERE Animal.CHIP = @CHIP;";
+                cmd.Parameters.AddWithValue("@CHIP", System.Data.SqlDbType.VarChar).Value = chip;
+                cmd.Parameters.AddWithValue("@Nome", System.Data.SqlDbType.VarChar).Value = nome;
+
+                cmd.Connection = sqlConnection;
+                cmd.ExecuteNonQuery();
+            }
+
+            void EditarCod_Familia()
+            {
+                Console.WriteLine("Código Familia: ");
+                string codigoFamilia = Console.ReadLine();
+
+                cmd.CommandText = "UPDATE Animal SET Cod_Familia = @Cod_Familia WHERE Animal.CHIP = @CHIP;";
+                cmd.Parameters.AddWithValue("@CHIP", System.Data.SqlDbType.VarChar).Value = chip;
+                cmd.Parameters.AddWithValue("@Cod_Familia", System.Data.SqlDbType.VarChar).Value = codigoFamilia;
+
+                cmd.Connection = sqlConnection;
+                cmd.ExecuteNonQuery();
+
+            }
+
+        }
 
     }
 }
