@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 
 namespace PONG_AdocaoAnimais
 {
@@ -6,8 +7,10 @@ namespace PONG_AdocaoAnimais
     {
         static void Main(string[] args)
 
-        {   Conexao conexao = new Conexao();
-            conexao.ConectarBanco(); 
+        {
+            Conexao conexao = new Conexao();
+
+            SqlConnection sqlConnection = conexao.ConectarBanco();
 
             MenuInicial();
 
@@ -37,17 +40,19 @@ namespace PONG_AdocaoAnimais
             void MenuPessoa()
             {
                 Pessoa pessoa = new Pessoa();
-                Console.WriteLine("Menu Pessoa\n");
-                Console.WriteLine("Digite a opção desejada:\n1-Cadastrar\n2-Editar cadastro existente\n3-Consultar Cadastro" +
-                    "\n4-Menu Inicial\n5-Menu Animal");
-                int opcPessoa = int.Parse(Console.ReadLine());
-
+                int opcPessoa;
 
                 do
                 {
+                    Console.WriteLine("\nMenu Pessoa\n");
+                    Console.WriteLine("Digite a opção desejada:\n1-Cadastrar\n2-Editar cadastro existente\n3-Consultar Cadastro" +
+                        "\n4-Menu Inicial\n5-Menu Animal");
+                    opcPessoa = int.Parse(Console.ReadLine());
+
                     switch (opcPessoa)
                     {
-                        case 1: pessoa.CadastrarPessoa();
+                        case 1:
+                            pessoa.CadastrarPessoa(sqlConnection);
                             break;
                         case 2: //Editar()
                             break;
@@ -65,13 +70,15 @@ namespace PONG_AdocaoAnimais
 
             void MenuAnimal()
             {
-                Console.WriteLine("Menu Animal\n");
-                Console.WriteLine("Digite a opção desejada:\n1-Cadastrar\n2-Editar cadastro existente\n3-Consultar Cadastro" +
-                    "\n4-Efetuar Adoções\n5-Menu Inicial\n6-Menu Pessoa");
-                int opcAnimal = int.Parse(Console.ReadLine());
+
+                int opcAnimal;
 
                 do
                 {
+                    Console.WriteLine("Menu Animal\n");
+                    Console.WriteLine("Digite a opção desejada:\n1-Cadastrar\n2-Editar cadastro existente\n3-Consultar Cadastro" +
+                        "\n4-Efetuar Adoções\n5-Menu Inicial\n6-Menu Pessoa");
+                    opcAnimal = int.Parse(Console.ReadLine());
 
                     switch (opcAnimal)
                     {

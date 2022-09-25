@@ -15,7 +15,7 @@ namespace PONG_AdocaoAnimais
         public string Complemento { get; set; }
         public int Cep { get; set; }
         public string Cidade { get; set; }
-        public char Uf { get; set; }
+        public string Uf { get; set; }
         public int Cod_Endereco { get; set; }
        
 
@@ -24,7 +24,7 @@ namespace PONG_AdocaoAnimais
 
         }
 
-        public Endereco(string logradouro, string bairro, int numero, string complemento, int cep, string cidade, char uf, int cod_Endereco)
+        public Endereco(string logradouro, string bairro, int numero, string complemento, int cep, string cidade, string uf, int cod_Endereco)
         {
             this.Logradouro = logradouro;
             this. Bairro = bairro;
@@ -37,7 +37,7 @@ namespace PONG_AdocaoAnimais
             
         }   
 
-        public void CadastrarEndereco()
+        public void CadastrarEndereco(SqlConnection sqlConnection)
         {
             Console.WriteLine("Logradouro: ");
             this.Logradouro = Console.ReadLine();
@@ -52,7 +52,7 @@ namespace PONG_AdocaoAnimais
             Console.WriteLine("Cidade: ");
             this.Cidade = Console.ReadLine();
             Console.WriteLine("UF: ");
-            this.Uf = char.Parse(Console.ReadLine());
+            this.Uf =(Console.ReadLine());
 
             SqlCommand cmd = new SqlCommand(); 
 
@@ -66,8 +66,8 @@ namespace PONG_AdocaoAnimais
             cmd.Parameters.AddWithValue("@Cidade", System.Data.SqlDbType.VarChar).Value = Cep;
             cmd.Parameters.AddWithValue("@UF", System.Data.SqlDbType.Char).Value = Uf;
 
-
-
+            cmd.Connection = sqlConnection;
+            cmd.ExecuteNonQuery();
 
         }
     }

@@ -21,17 +21,8 @@ namespace PONG_AdocaoAnimais
         {
 
         }
-        public Pessoa(string nome, string cpf, char sexo, DateTime dataNascimento, string telefone)
-        {
-            this.Nome = nome;
-            this.Cpf = cpf;
-            this.Sexo = sexo;
-            this.DataNascimento = dataNascimento;
-            this.Telefone = telefone;
-            this.endereco = new Endereco();   
-        }
 
-        public void CadastrarPessoa()
+        public void CadastrarPessoa(SqlConnection sqlConnection)
         {
             this.endereco = new Endereco();
             Console.WriteLine("Nome: ");
@@ -42,7 +33,7 @@ namespace PONG_AdocaoAnimais
             this.Sexo = char.Parse(Console.ReadLine());
             Console.WriteLine("Data de Nascimento: ");
             this.DataNascimento = DateTime.Parse(Console.ReadLine());
-            endereco.CadastrarEndereco();
+            endereco.CadastrarEndereco(sqlConnection);
 
             SqlCommand cmd = new SqlCommand();
 
@@ -52,6 +43,10 @@ namespace PONG_AdocaoAnimais
             cmd.Parameters.AddWithValue("@Sexo", System.Data.SqlDbType.VarChar).Value = Sexo;
             cmd.Parameters.AddWithValue("@Data_Nascimento", System.Data.SqlDbType.DateTime).Value = DataNascimento;
             cmd.Parameters.AddWithValue("@Telefone", System.Data.SqlDbType.VarChar).Value = DataNascimento;
+            cmd.Parameters.AddWithValue("@Cod_Endereco", System.Data.SqlDbType.Int).Value = 3;
+
+            cmd.Connection = sqlConnection;
+            cmd.ExecuteNonQuery();
         }
 
     }

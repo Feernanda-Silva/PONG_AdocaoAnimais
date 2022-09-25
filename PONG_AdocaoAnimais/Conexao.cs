@@ -9,12 +9,13 @@ namespace PONG_AdocaoAnimais
 {
     internal class Conexao
     {
-        string conexaosql = "Data Source=localhost;Initial Catalog=AgendaTelefone;User Id=sa;Password=fernanda123;";
+        string conexaosql = "Data Source=localhost;Initial Catalog=ONG;User Id=sa;Password=fernanda123;";
 
-        public void ConectarBanco()
+        public SqlConnection ConectarBanco()
         {
             SqlConnection conexao = new SqlConnection(this.conexaosql);
-            conexao.Open(); 
+            conexao.Open();
+            return conexao;
         }
     }
 }
