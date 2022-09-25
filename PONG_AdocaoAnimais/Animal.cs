@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace PONG_AdocaoAnimais
         public char Sexo { get; set; }
         public string Nome { get; set; }
         public Pessoa Cpf { get; set; }
+
+        public Familia familia { get; set; }
         public Familia Cod_Familia { get; set; }
 
         public Animal()
@@ -21,18 +24,11 @@ namespace PONG_AdocaoAnimais
 
         }
 
-        public Animal(int chip, string raca, char sexo, string nome, Pessoa cpf, Familia cod_Familia)
-        {
-            this.Chip = chip;
-            this.Raca = raca;
-            this.Sexo = sexo;
-            this.Nome = nome;
-            this.Cpf = cpf;
-            this.Cod_Familia = cod_Familia;
-        }
 
-        public void CadastrarAnimal()
+        public void CadastrarAnimal(SqlConnection sqlConnection)
         {
+            this.familia= new Familia(); 
+
             Console.WriteLine("Numero do Chip: ");
             this.Chip = int.Parse(Console.ReadLine());
             Console.WriteLine("Raça: ");
@@ -62,10 +58,30 @@ namespace PONG_AdocaoAnimais
 
             else
             {
-                Console.WriteLine("Nome: ");
-                this.Nome = Console.ReadLine();
+
+                this.Nome = "Sem Nome"; 
             }
 
+            SqlCommand cmd = new SqlCommand();
+
+            cmd.CommandText = "INSERT INTO Animal(CHIP, Raca, Sexo, Nome, Cod_Familia) VALUES (@CHIP, @Raca, @Sexo, @Nome, @Cod_Familia);";
+            cmd.Parameters.AddWithValue("@CHIP", System.Data.SqlDbType.Int).Value = Chip;
+            cmd.Parameters.AddWithValue("@Raca", System.Data.SqlDbType.VarChar).Value = Raca;
+            cmd.Parameters.AddWithValue("@Sexo", System.Data.SqlDbType.Char).Value = Sexo;
+            cmd.Parameters.AddWithValue("@Nome", System.Data.SqlDbType.VarChar).Value = Nome;
+            cmd.Parameters.AddWithValue("@Cod_Familia", System.Data.SqlDbType.Int).Value = 1;
+
+            cmd.Connection = sqlConnection;
+            cmd.ExecuteNonQuery();
+
         }
+
+        public void EditarCadastroAnimal()
+        {
+
+        }
+
+
+
     }
 }

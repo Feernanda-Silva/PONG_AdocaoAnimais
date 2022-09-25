@@ -37,7 +37,7 @@ namespace PONG_AdocaoAnimais
             
         }   
 
-        public void CadastrarEndereco(SqlConnection sqlConnection)
+        public int CadastrarEndereco(SqlConnection sqlConnection)
         {
             Console.WriteLine("Logradouro: ");
             this.Logradouro = Console.ReadLine();
@@ -56,7 +56,7 @@ namespace PONG_AdocaoAnimais
 
             SqlCommand cmd = new SqlCommand(); 
 
-            cmd.CommandText = "INSERT INTO Endereco(Logradouro, Bairro, Numero, Complemento, CEP, Cidade, UF) VALUES (@Logradouro, @Bairro, @Numero, @Complemento, @CEP, @Cidade, @UF);";
+            cmd.CommandText = "INSERT INTO Endereco(Logradouro, Bairro, Numero, Complemento, CEP, Cidade, UF) OUTPUT INSERTED.Cod_Endereco VALUES (@Logradouro, @Bairro, @Numero, @Complemento, @CEP, @Cidade, @UF);";
 
             cmd.Parameters.AddWithValue("@Logradouro", System.Data.SqlDbType.VarChar).Value = Logradouro;
             cmd.Parameters.AddWithValue("@Bairro", System.Data.SqlDbType.VarChar).Value = Bairro;
@@ -67,7 +67,12 @@ namespace PONG_AdocaoAnimais
             cmd.Parameters.AddWithValue("@UF", System.Data.SqlDbType.Char).Value = Uf;
 
             cmd.Connection = sqlConnection;
-            cmd.ExecuteNonQuery();
+            int codigoEndereco = (int)cmd.ExecuteScalar();
+            return codigoEndereco;
+        }
+
+        public void EditarEndereco()
+        {
 
         }
     }
