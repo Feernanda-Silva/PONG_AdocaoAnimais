@@ -15,9 +15,7 @@ namespace PONG_AdocaoAnimais
         public char Sexo { get; set; }
         public string Nome { get; set; }
         public Pessoa Cpf { get; set; }
-
-        public Familia familia { get; set; }
-        public Familia Cod_Familia { get; set; }
+        public int Cod_Familia { get; set; }
 
         public Animal()
         {
@@ -27,12 +25,15 @@ namespace PONG_AdocaoAnimais
 
         public void CadastrarAnimal(SqlConnection sqlConnection)
         {
-            this.familia = new Familia();
+          
 
             Console.WriteLine("Numero do Chip: ");
             this.Chip = int.Parse(Console.ReadLine());
+             //Tratamento: SELECT para ver se já existe o chip
+
             Console.WriteLine("Raça: ");
             this.Raca = Console.ReadLine();
+
             Console.WriteLine("Sexo(M/F): ");
             this.Sexo = char.Parse(Console.ReadLine());
             while (this.Sexo != 'M' && this.Sexo != 'F')
@@ -41,15 +42,16 @@ namespace PONG_AdocaoAnimais
                 Console.WriteLine("Digite novamente!");
                 this.Sexo = char.Parse(Console.ReadLine());
             }
+
             Console.WriteLine("O animal já possui um nome? Digite : 1-Sim ou 2-Não: ");
             int opc = int.Parse(Console.ReadLine());
-
             while (opc != 1 && opc != 2)
             {
                 Console.WriteLine("Opção inválida");
                 Console.WriteLine("Digite novamente!");
                 opc = int.Parse(Console.ReadLine());
             }
+
             if (opc == 1)
             {
                 Console.WriteLine("Nome: ");
@@ -58,10 +60,13 @@ namespace PONG_AdocaoAnimais
 
             else
             {
-
                 this.Nome = "Sem Nome";
             }
 
+            Console.WriteLine("Código Familia: ");
+            this.Cod_Familia = int.Parse(Console.ReadLine());
+
+            //Inserindo o animal na tabela Animal
             SqlCommand cmd = new SqlCommand();
 
             cmd.CommandText = "INSERT INTO Animal(CHIP, Raca, Sexo, Nome, Cod_Familia) VALUES (@CHIP, @Raca, @Sexo, @Nome, @Cod_Familia);";
@@ -69,7 +74,7 @@ namespace PONG_AdocaoAnimais
             cmd.Parameters.AddWithValue("@Raca", System.Data.SqlDbType.VarChar).Value = Raca;
             cmd.Parameters.AddWithValue("@Sexo", System.Data.SqlDbType.Char).Value = Sexo;
             cmd.Parameters.AddWithValue("@Nome", System.Data.SqlDbType.VarChar).Value = Nome;
-            cmd.Parameters.AddWithValue("@Cod_Familia", System.Data.SqlDbType.Int).Value = 1;
+            cmd.Parameters.AddWithValue("@Cod_Familia", System.Data.SqlDbType.Int).Value = Cod_Familia;
 
             cmd.Connection = sqlConnection;
             cmd.ExecuteNonQuery();
@@ -80,6 +85,7 @@ namespace PONG_AdocaoAnimais
         {
             Console.WriteLine("\nDigite o código do chip para localizar o animal: ");
             int chip = int.Parse(Console.ReadLine());
+            //Tratamento se existe o chip
 
             SqlCommand cmd = new SqlCommand();
 
@@ -118,9 +124,10 @@ namespace PONG_AdocaoAnimais
         {
             SqlCommand cmd = new SqlCommand();
 
-            Console.WriteLine("\nDigite o código do chip para localizar o animal: ");
+            Console.WriteLine("\nDigite o código do CHIP para localizar o animal: ");
             int chip = int.Parse(Console.ReadLine());
 
+            //Fazer um SELECT para ver se existe o animal no cadastro
 
             Console.WriteLine("\nDigite o número do campo que deseja editar: ");
             Console.WriteLine("1-Raça: ");
@@ -128,6 +135,8 @@ namespace PONG_AdocaoAnimais
             Console.WriteLine("3- Nome do Animal: ");
             Console.WriteLine("4-Código Familia: ");
             int opc = int.Parse(Console.ReadLine());
+
+            //Tratamento opção invalida 
 
             switch (opc)
             {
@@ -176,8 +185,6 @@ namespace PONG_AdocaoAnimais
                 Console.WriteLine("Nome do Animal: ");
                 string nome = Console.ReadLine();
 
-                SqlCommand cmd = new SqlCommand();
-
                 cmd.CommandText = "UPDATE Animal SET Nome = @Nome WHERE Animal.CHIP = @CHIP;";
                 cmd.Parameters.AddWithValue("@CHIP", System.Data.SqlDbType.VarChar).Value = chip;
                 cmd.Parameters.AddWithValue("@Nome", System.Data.SqlDbType.VarChar).Value = nome;
@@ -191,6 +198,8 @@ namespace PONG_AdocaoAnimais
                 Console.WriteLine("Código Familia: ");
                 string codigoFamilia = Console.ReadLine();
 
+                //Tratamento se existe o código da familia 
+
                 cmd.CommandText = "UPDATE Animal SET Cod_Familia = @Cod_Familia WHERE Animal.CHIP = @CHIP;";
                 cmd.Parameters.AddWithValue("@CHIP", System.Data.SqlDbType.VarChar).Value = chip;
                 cmd.Parameters.AddWithValue("@Cod_Familia", System.Data.SqlDbType.VarChar).Value = codigoFamilia;
@@ -202,5 +211,9 @@ namespace PONG_AdocaoAnimais
 
         }
 
+        public void AdotarAnimal()
+        {
+           
+        }
     }
 }

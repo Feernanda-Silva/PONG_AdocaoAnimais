@@ -71,9 +71,5 @@ namespace PONG_AdocaoAnimais
             return codigoEndereco;
         }
 
-        public void EditarEndereco()
-        {
-
-        }
     }
 }

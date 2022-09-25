@@ -9,7 +9,7 @@ namespace PONG_AdocaoAnimais
 
         {
             Conexao conexao = new Conexao();
-             SqlConnection sqlConnection = conexao.ConectarBanco();
+            SqlConnection sqlConnection = conexao.ConectarBanco();
 
             MenuInicial();
 
@@ -53,9 +53,11 @@ namespace PONG_AdocaoAnimais
                         case 1:
                             pessoa.CadastrarPessoa(sqlConnection);
                             break;
-                        case 2: //Editar()
+                        case 2:
+                            pessoa.EditarPessoa(sqlConnection);
                             break;
-                        case 3: pessoa.ConsultarPessoa(sqlConnection);
+                        case 3:
+                            pessoa.ConsultarPessoa(sqlConnection);
                             break;
                         case 4:
                             MenuInicial();
@@ -77,37 +79,44 @@ namespace PONG_AdocaoAnimais
                 {
                     Console.WriteLine("\nMenu Animal\n");
                     Console.WriteLine("Digite a opção desejada:\n1-Cadastrar Animal\n2-Editar Animal\n3-Consultar Animal" +
-                        "\n4-Cadastrar Familia\n5-Consultar Familias Existentes\n6-Adoção\n7-Menu Inicial\n8-Menu Pessoa");
+                        "\n4-Cadastrar Familia\n5-Consultar Familia\n6-Editar Familia\n7-Efetuar Adoção\n8-Menu Inicial\n9-Menu Pessoa");
                     opcAnimal = int.Parse(Console.ReadLine());
 
                     switch (opcAnimal)
                     {
-                        case 1: animal.CadastrarAnimal(sqlConnection);
+                        case 1:
+                            animal.CadastrarAnimal(sqlConnection);
                             break;
-                        case 2: animal.EditarAnimal(sqlConnection);
+                        case 2:
+                            animal.EditarAnimal(sqlConnection);
                             break;
-                        case 3: animal.ConsultarAnimal(sqlConnection); 
+                        case 3:
+                            animal.ConsultarAnimal(sqlConnection);
                             break;
-                        case 4:familia.CadastrarFamilia(sqlConnection);
+                        case 4:
+                            familia.CadastrarFamilia(sqlConnection);
                             break;
                         case 5:
                             familia.ConsultarFamilia(sqlConnection);
                             break;
-                        case 6: //EfetuarAdocao(); 
+                        case 6:
+                            familia.EditarFamilia(sqlConnection);
                             break;
-                        case 7:
-                            MenuInicial();
+                        case 7: //EfetuarAdocao(); 
                             break;
                         case 8:
+                            MenuInicial();
+                            break;
+                        case 9:
                             MenuPessoa();
                             break;
-                       
+
+
+
                     }
+
                 } while (opcAnimal > 0 && opcAnimal < 9);
             }
         }
     }
 }
-
-
-

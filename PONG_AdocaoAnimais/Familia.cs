@@ -51,5 +51,24 @@ namespace PONG_AdocaoAnimais
                 }
             }
         }
+
+        public void EditarFamilia(SqlConnection sqlConnection)
+        {
+            Console.WriteLine("Digite o Código da Familia: ");
+            int codigoFamilia = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Tipo: ");
+            string tipo = Console.ReadLine();
+
+            SqlCommand cmd = new SqlCommand();
+
+            cmd.CommandText = "UPDATE Familia SET Tipo= @Tipo WHERE Familia.Cod_Familia = @Cod_Familia;";
+            cmd.Parameters.AddWithValue("@Cod_Familia", System.Data.SqlDbType.Char).Value = codigoFamilia;
+            cmd.Parameters.AddWithValue("@Tipo", System.Data.SqlDbType.VarChar).Value = tipo;
+
+            cmd.Connection = sqlConnection;
+            cmd.ExecuteNonQuery();
+
+        }
     }
 }
