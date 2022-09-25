@@ -211,13 +211,54 @@ namespace PONG_AdocaoAnimais
 
         }
 
-        public void AdotarAnimal()
+        public void AdotarAnimal(SqlConnection sqlConnection)
         {
-           
+            Console.WriteLine("Digite o CPF do futuro Tutor: ");
+            string cpf = Console.ReadLine();
+
+            Console.WriteLine("Digite o CHIP do Animal: ");
+            int chip = int.Parse(Console.ReadLine());
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "UPDATE Animal SET CPF = @CPF WHERE Animal.CHIP = @CHIP;";
+            cmd.Parameters.AddWithValue("@CPF", System.Data.SqlDbType.Char).Value = cpf;
+            cmd.Parameters.AddWithValue("@CHIP", System.Data.SqlDbType.Int).Value = chip;
+
+            cmd.Connection = sqlConnection;
+            cmd.ExecuteNonQuery();
+            Console.WriteLine("\nAdoção efetuada com sucesso!");
         }
 
-        public void ConsultarAdocao()
+        public void ConsultarAdocao(SqlConnection sqlConnection)
         {
+            Console.WriteLine("Digite o CPF do Tutor: ");
+            string cpf = Console.ReadLine();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "SELECT Pessoa.Nome, Pessoa.CPF, Animal.CHIP, Animal.Raca, Animal.Sexo, Animal.Nome, Animal.Cod_Familia, Familia.Tipo " +
+                "FROM Pessoa, Animal, Familia " +
+                "WHERE Pessoa.CPF = Animal.CPF " +
+                "AND Familia.Cod_Familia = Animal.Cod_Familia " +
+                "AND Pessoa.CPF = @CPF;";
+
+            cmd.Parameters.AddWithValue("@CPF", System.Data.SqlDbType.Char).Value = cpf;
+            cmd.Connection = sqlConnection;
+            cmd.ExecuteNonQuery();
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    Console.WriteLine("Nome do adotante: {0}", reader.GetString(0));
+                    Console.WriteLine("CPF do adotante: {0}", reader.GetString(1));
+                    Console.WriteLine("CHIP: {0}", reader.GetInt32(2));
+                    Console.WriteLine("Raça: {0}", reader.GetString(3));
+                    Console.WriteLine("Sexo: {0}", reader.GetString(4));
+                    Console.WriteLine("Nome Animal: {0}", reader.GetString(5));
+                    Console.WriteLine("Código da Família: {0}", reader.GetInt32(6));
+                    Console.WriteLine("Tipo do Animal: {0}\n", reader.GetString(7));
+                }
+            }
 
         }
     }

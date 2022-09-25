@@ -31,6 +31,8 @@ namespace PONG_AdocaoAnimais
             cmd.Connection = sqlConnection;
             cmd.ExecuteNonQuery();
 
+            Console.WriteLine("\nCadastro efetuado com sucesso!");
+
         }
 
         public void ConsultarFamilia(SqlConnection sqlConnection)
