@@ -96,14 +96,14 @@ namespace PONG_AdocaoAnimais
         }
         public void EditarPessoa(SqlConnection sqlConnection)
         {
-            
+
             Console.WriteLine("\nDigite o CPF para localizar o Cadastro : ");
             string cpf = Console.ReadLine();
             int opc;
 
             // Fazer um SELECT para ver se existe o cadastro 
             do
-            { 
+            {
 
                 Console.WriteLine("\nDigite o número do campo que deseja editar: ");
                 Console.WriteLine("1-Nome: ");
@@ -159,9 +159,6 @@ namespace PONG_AdocaoAnimais
                         break;
                 }
             } while (opc > 0 && opc < 12);
-
-
-
 
             void EditarNome()
             {

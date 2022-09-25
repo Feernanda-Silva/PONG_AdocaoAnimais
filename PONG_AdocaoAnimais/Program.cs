@@ -79,7 +79,7 @@ namespace PONG_AdocaoAnimais
                 {
                     Console.WriteLine("\nMenu Animal\n");
                     Console.WriteLine("Digite a opção desejada:\n1-Cadastrar Animal\n2-Editar Animal\n3-Consultar Animal" +
-                        "\n4-Cadastrar Familia\n5-Consultar Familia\n6-Editar Familia\n7-Efetuar Adoção\n8-Menu Inicial\n9-Menu Pessoa");
+                        "\n4-Cadastrar Familia\n5-Consultar Familia\n6-Editar Familia\n7-Adoção\n8-Menu Inicial\n9-Menu Pessoa");
                     opcAnimal = int.Parse(Console.ReadLine());
 
                     switch (opcAnimal)
@@ -102,7 +102,8 @@ namespace PONG_AdocaoAnimais
                         case 6:
                             familia.EditarFamilia(sqlConnection);
                             break;
-                        case 7: //EfetuarAdocao(); 
+                        case 7:
+                            Adocao();
                             break;
                         case 8:
                             MenuInicial();
@@ -110,12 +111,42 @@ namespace PONG_AdocaoAnimais
                         case 9:
                             MenuPessoa();
                             break;
-
-
-
                     }
 
-                } while (opcAnimal > 0 && opcAnimal < 9);
+                } while (opcAnimal > 0 && opcAnimal < 10);
+            }
+
+            void Adocao()
+            {
+                Animal animal = new Animal();
+                int opcAdocao;
+                do
+                {
+                    Console.WriteLine("\nMenu Adocao\n");
+                    Console.WriteLine("Digite a opção desejada:\n1-Efetuar Adoçao\n2-Consultar Adoçao\n3-Menu Inicial" +
+                        "\n4-Menu Pessoa\n5-Menu Animal");
+                    opcAdocao = int.Parse(Console.ReadLine());
+
+                    switch (opcAdocao)
+                    {
+                        case 1:
+                            animal.AdotarAnimal();
+                            break;
+                        case 2:
+                            animal.ConsultarAdocao();
+                            break;
+                        case 3:
+                            MenuInicial();
+                            break;
+                        case 4:
+                            MenuPessoa();
+                            break;
+                        case 5:
+                            MenuAnimal();
+                            break;
+                    }
+
+                } while (opcAdocao > 0 && opcAdocao < 4);
             }
         }
     }

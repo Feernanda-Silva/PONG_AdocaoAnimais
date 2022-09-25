@@ -215,5 +215,10 @@ namespace PONG_AdocaoAnimais
         {
            
         }
+
+        public void ConsultarAdocao()
+        {
+
+        }
     }
 }

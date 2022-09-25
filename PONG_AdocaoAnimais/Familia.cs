@@ -26,7 +26,6 @@ namespace PONG_AdocaoAnimais
             SqlCommand cmd = new SqlCommand();
 
             cmd.CommandText = "INSERT INTO Familia(Tipo) OUTPUT INSERTED.Cod_Familia VALUES (@Tipo);";
-
             cmd.Parameters.AddWithValue("@Tipo", System.Data.SqlDbType.VarChar).Value = Tipo;
 
             cmd.Connection = sqlConnection;
@@ -40,7 +39,6 @@ namespace PONG_AdocaoAnimais
             cmd.CommandText = "SELECT Familia.Cod_Familia, Familia.Tipo FROM Familia";
             cmd.Connection = sqlConnection;
             cmd.ExecuteNonQuery();
-
 
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
