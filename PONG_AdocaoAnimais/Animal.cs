@@ -22,10 +22,8 @@ namespace PONG_AdocaoAnimais
 
         }
 
-
-        public void CadastrarAnimal(SqlConnection sqlConnection)
+        public void CadastrarAnimal(SqlConnection sqlConnection, Familia familia)
         {
-
             Console.WriteLine("Numero do Chip: ");
             this.Chip = int.Parse(Console.ReadLine());
 
@@ -70,7 +68,13 @@ namespace PONG_AdocaoAnimais
 
             Console.WriteLine("Código Familia: ");
             this.Cod_Familia = int.Parse(Console.ReadLine());
-            //Tratamento: SELECT para ver se codigo existe
+
+            while (familia.PossuirCodFamiliaCadastrado(sqlConnection, this.Cod_Familia) == false)
+            {
+                Console.WriteLine("Código da familia não encontrado!");
+                Console.WriteLine("Digite o código da familia: ");
+                this.Cod_Familia = int.Parse(Console.ReadLine());
+            }
 
             //Inserindo o animal na tabela Animal
             SqlCommand cmd = new SqlCommand();
@@ -85,18 +89,21 @@ namespace PONG_AdocaoAnimais
             cmd.Connection = sqlConnection;
             cmd.ExecuteNonQuery();
 
+            Console.WriteLine("Cadastro efetuado com sucesso!");
+
         }
 
         public void ConsultarAnimal(SqlConnection sqlConnection)
         {
             Console.WriteLine("\nDigite o código do chip para localizar o animal: ");
             int chip = int.Parse(Console.ReadLine());
+
             //Tratamento se existe o chip
-            while (PossuirChipCadastrado(sqlConnection, this.Chip) == false)
+            while (PossuirChipCadastrado(sqlConnection, chip) == false)
             {
                 Console.WriteLine("CHIP não encontrado!");
                 Console.WriteLine("Digite outro CHIP: ");
-                this.Chip = int.Parse(Console.ReadLine());
+                chip = int.Parse(Console.ReadLine());
             }
 
             SqlCommand cmd = new SqlCommand();
@@ -132,7 +139,7 @@ namespace PONG_AdocaoAnimais
             }
         }
 
-        public void EditarAnimal(SqlConnection sqlConnection)
+        public void EditarAnimal(SqlConnection sqlConnection, Familia familia)
         {
             SqlCommand cmd = new SqlCommand();
 
@@ -143,7 +150,7 @@ namespace PONG_AdocaoAnimais
             {
                 Console.WriteLine("CHIP não encontrado!");
                 Console.WriteLine("Digite outro CHIP: ");
-                this.Chip = int.Parse(Console.ReadLine());
+                chip = int.Parse(Console.ReadLine());
             }
 
             Console.WriteLine("\nDigite o número do campo que deseja editar: ");
@@ -172,7 +179,7 @@ namespace PONG_AdocaoAnimais
                     EditarNomeAnimal();
                     break;
                 case 4:
-                    EditarCod_Familia();
+                    EditarCod_Familia(familia);
                     break;
             }
 
@@ -187,6 +194,7 @@ namespace PONG_AdocaoAnimais
                 cmd.Connection = sqlConnection;
                 cmd.ExecuteNonQuery();
 
+                Console.WriteLine("Edição efetuada com sucesso!");
             }
 
             void EditarSexo()
@@ -200,6 +208,8 @@ namespace PONG_AdocaoAnimais
 
                 cmd.Connection = sqlConnection;
                 cmd.ExecuteNonQuery();
+
+                Console.WriteLine("Edição efetuada com sucesso!");
             }
 
             void EditarNomeAnimal()
@@ -213,14 +223,21 @@ namespace PONG_AdocaoAnimais
 
                 cmd.Connection = sqlConnection;
                 cmd.ExecuteNonQuery();
+
+                Console.WriteLine("Edição efetuada com sucesso!");
             }
 
-            void EditarCod_Familia()
+            void EditarCod_Familia(Familia familia)
             {
                 Console.WriteLine("Código Familia: ");
-                string codigoFamilia = Console.ReadLine();
+                int codigoFamilia = int.Parse(Console.ReadLine());
 
-                //Tratamento se existe o código da familia 
+                while (familia.PossuirCodFamiliaCadastrado(sqlConnection, codigoFamilia) == false)
+                {
+                    Console.WriteLine("Código da familia não encontrado!");
+                    Console.WriteLine("Digite o código da familia: ");
+                    codigoFamilia = int.Parse(Console.ReadLine());
+                }
 
                 cmd.CommandText = "UPDATE Animal SET Cod_Familia = @Cod_Familia WHERE Animal.CHIP = @CHIP;";
                 cmd.Parameters.AddWithValue("@CHIP", System.Data.SqlDbType.VarChar).Value = chip;
@@ -229,6 +246,7 @@ namespace PONG_AdocaoAnimais
                 cmd.Connection = sqlConnection;
                 cmd.ExecuteNonQuery();
 
+                Console.WriteLine("Edição efetuada com sucesso!");
             }
 
         }

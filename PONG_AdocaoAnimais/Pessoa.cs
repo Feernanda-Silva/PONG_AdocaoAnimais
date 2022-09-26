@@ -40,7 +40,6 @@ namespace PONG_AdocaoAnimais
                 this.Cpf = Console.ReadLine();
             }
 
-
             Console.WriteLine("Sexo(M/F): ");
             this.Sexo = char.Parse(Console.ReadLine());
 
@@ -73,12 +72,11 @@ namespace PONG_AdocaoAnimais
             Console.WriteLine("\nDigite o CPF: ");
             string cpf = Console.ReadLine();
 
-            //Tratamento: SELECT para ver se existe um cadastro com esse CPF.
             while (PossuirCPFCadastrado(sqlConnection, cpf) == false)
             {
                 Console.WriteLine("CPF não encontrado!");
                 Console.WriteLine("Digite outro CPF:");
-                Cpf = Console.ReadLine();
+                cpf = Console.ReadLine();
             }
 
             SqlCommand cmd = new SqlCommand();
@@ -112,13 +110,12 @@ namespace PONG_AdocaoAnimais
                 }
             }
         }
+
         public void EditarPessoa(SqlConnection sqlConnection)
         {
-
             Console.WriteLine("\nDigite o CPF para localizar o Cadastro : ");
             string cpf = Console.ReadLine();
 
-            //Tratamento: SELECT para ver se existe um cadastro com esse CPF.
             while (PossuirCPFCadastrado(sqlConnection, cpf) == false)
             {
                 Console.WriteLine("CPF não encontrado!");
@@ -144,8 +141,6 @@ namespace PONG_AdocaoAnimais
                 Console.WriteLine("11-UF:  ");
                 Console.WriteLine("12-Voltar");
                 opc = int.Parse(Console.ReadLine());
-
-                //Tratamento opção invalida 
 
                 switch (opc)
                 {
@@ -198,6 +193,8 @@ namespace PONG_AdocaoAnimais
                 cmd.Connection = sqlConnection;
                 cmd.ExecuteNonQuery();
 
+                Console.WriteLine("Edição efetuada com sucesso!");
+
             }
 
             void EditarSexo()
@@ -212,6 +209,8 @@ namespace PONG_AdocaoAnimais
 
                 cmd.Connection = sqlConnection;
                 cmd.ExecuteNonQuery();
+
+                Console.WriteLine("Edição efetuada com sucesso!");
             }
 
             void EditarDataNascimento()
@@ -226,6 +225,8 @@ namespace PONG_AdocaoAnimais
 
                 cmd.Connection = sqlConnection;
                 cmd.ExecuteNonQuery();
+
+                Console.WriteLine("Edição efetuada com sucesso!");
             }
 
             void EditarTelefone()
@@ -240,6 +241,8 @@ namespace PONG_AdocaoAnimais
 
                 cmd.Connection = sqlConnection;
                 cmd.ExecuteNonQuery();
+
+                Console.WriteLine("Edição efetuada com sucesso!");
             }
 
             void EditarLogradouro()
@@ -254,6 +257,8 @@ namespace PONG_AdocaoAnimais
 
                 cmd.Connection = sqlConnection;
                 cmd.ExecuteNonQuery();
+
+                Console.WriteLine("Edição efetuada com sucesso!");
             }
 
             void EditarBairro()
@@ -268,6 +273,8 @@ namespace PONG_AdocaoAnimais
 
                 cmd.Connection = sqlConnection;
                 cmd.ExecuteNonQuery();
+
+                Console.WriteLine("Edição efetuada com sucesso!");
             }
 
             void EditarNumero()
@@ -282,6 +289,8 @@ namespace PONG_AdocaoAnimais
 
                 cmd.Connection = sqlConnection;
                 cmd.ExecuteNonQuery();
+
+                Console.WriteLine("Edição efetuada com sucesso!");
             }
 
             void EditarComplemento()
@@ -296,6 +305,8 @@ namespace PONG_AdocaoAnimais
 
                 cmd.Connection = sqlConnection;
                 cmd.ExecuteNonQuery();
+
+                Console.WriteLine("Edição efetuada com sucesso!");
             }
 
             void EditarCep()
@@ -310,6 +321,8 @@ namespace PONG_AdocaoAnimais
 
                 cmd.Connection = sqlConnection;
                 cmd.ExecuteNonQuery();
+
+                Console.WriteLine("Edição efetuada com sucesso!");
             }
 
             void EditarCidade()
@@ -324,6 +337,8 @@ namespace PONG_AdocaoAnimais
 
                 cmd.Connection = sqlConnection;
                 cmd.ExecuteNonQuery();
+
+                Console.WriteLine("Edição efetuada com sucesso!");
             }
 
             void EditarUf()
@@ -338,6 +353,8 @@ namespace PONG_AdocaoAnimais
 
                 cmd.Connection = sqlConnection;
                 cmd.ExecuteNonQuery();
+
+                Console.WriteLine("Edição efetuada com sucesso!");
             }
         }
 

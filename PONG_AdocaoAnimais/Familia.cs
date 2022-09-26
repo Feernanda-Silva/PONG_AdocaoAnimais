@@ -57,6 +57,13 @@ namespace PONG_AdocaoAnimais
             Console.WriteLine("Digite o Código da Familia: ");
             int codigoFamilia = int.Parse(Console.ReadLine());
 
+            while(PossuirCodFamiliaCadastrado(sqlConnection, codigoFamilia)== false)
+            {
+                Console.WriteLine("Código da familia não encontrado!");
+                Console.WriteLine("Digite o código da familia: ");
+                codigoFamilia = int.Parse(Console.ReadLine());
+            }
+
             Console.WriteLine("Tipo: ");
             string tipo = Console.ReadLine();
 
@@ -68,7 +75,36 @@ namespace PONG_AdocaoAnimais
 
             cmd.Connection = sqlConnection;
             cmd.ExecuteNonQuery();
+        }
 
+        public bool PossuirCodFamiliaCadastrado(SqlConnection sqlConnection, int Cod_Familia)
+        {
+            SqlCommand cmd = new SqlCommand();
+
+            cmd.CommandText = "SELECT Cod_Familia FROM Familia WHERE Cod_Familia = @Cod_Familia";
+            cmd.Parameters.AddWithValue("@Cod_Familia", System.Data.SqlDbType.Int).Value = Cod_Familia;
+
+            cmd.Connection = sqlConnection;
+            cmd.ExecuteNonQuery();
+
+            bool possuiCodFamiliaCadastrado = false;
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+
+                while (reader.Read())
+                {
+                    if (reader.IsDBNull(0))
+                    {
+                        possuiCodFamiliaCadastrado = false;
+                    }
+
+                    else
+                    {
+                        possuiCodFamiliaCadastrado = true;
+                    }
+                }
+            }
+            return possuiCodFamiliaCadastrado;
         }
     }
 }

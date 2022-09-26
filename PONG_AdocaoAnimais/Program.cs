@@ -85,10 +85,10 @@ namespace PONG_AdocaoAnimais
                     switch (opcAnimal)
                     {
                         case 1:
-                            animal.CadastrarAnimal(sqlConnection);
+                            animal.CadastrarAnimal(sqlConnection, familia);
                             break;
                         case 2:
-                            animal.EditarAnimal(sqlConnection);
+                            animal.EditarAnimal(sqlConnection, familia);
                             break;
                         case 3:
                             animal.ConsultarAnimal(sqlConnection);
