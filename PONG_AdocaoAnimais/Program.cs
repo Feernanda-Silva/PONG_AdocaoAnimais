@@ -10,6 +10,9 @@ namespace PONG_AdocaoAnimais
         {
             Conexao conexao = new Conexao();
             SqlConnection sqlConnection = conexao.ConectarBanco();
+            Animal animal = new Animal();
+            Familia familia = new Familia();
+            Pessoa pessoa = new Pessoa();   
 
             MenuInicial();
 
@@ -38,7 +41,6 @@ namespace PONG_AdocaoAnimais
 
             void MenuPessoa()
             {
-                Pessoa pessoa = new Pessoa();
                 int opcPessoa;
 
                 do
@@ -71,8 +73,6 @@ namespace PONG_AdocaoAnimais
 
             void MenuAnimal()
             {
-                Animal animal = new Animal();
-                Familia familia = new Familia();
                 int opcAnimal;
 
                 do
@@ -118,11 +118,11 @@ namespace PONG_AdocaoAnimais
 
             void Adocao()
             {
-                Animal animal = new Animal();
+               
                 int opcAdocao;
                 do
                 {
-                    Console.WriteLine("\nMenu Adocao\n");
+                    Console.WriteLine("Menu Adocao\n");
                     Console.WriteLine("Digite a opção desejada:\n1-Efetuar Adoçao\n2-Consultar Adoçao\n3-Menu Inicial" +
                         "\n4-Menu Pessoa\n5-Menu Animal");
                     opcAdocao = int.Parse(Console.ReadLine());
@@ -130,10 +130,10 @@ namespace PONG_AdocaoAnimais
                     switch (opcAdocao)
                     {
                         case 1:
-                            animal.AdotarAnimal(sqlConnection);
+                            animal.AdotarAnimal(sqlConnection, pessoa);
                             break;
                         case 2:
-                            animal.ConsultarAdocao(sqlConnection);
+                            animal.ConsultarAdocao(sqlConnection, pessoa);
                             break;
                         case 3:
                             MenuInicial();

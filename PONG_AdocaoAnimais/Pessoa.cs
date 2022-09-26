@@ -130,7 +130,6 @@ namespace PONG_AdocaoAnimais
 
             do
             {
-
                 Console.WriteLine("\nDigite o número do campo que deseja editar: ");
                 Console.WriteLine("1-Nome: ");
                 Console.WriteLine("2-Sexo: ");

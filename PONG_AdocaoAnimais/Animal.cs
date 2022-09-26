@@ -25,11 +25,16 @@ namespace PONG_AdocaoAnimais
 
         public void CadastrarAnimal(SqlConnection sqlConnection)
         {
-          
 
             Console.WriteLine("Numero do Chip: ");
             this.Chip = int.Parse(Console.ReadLine());
-             //Tratamento: SELECT para ver se já existe o chip
+
+            while (PossuirChipCadastrado(sqlConnection, this.Chip) == true)
+            {
+                Console.WriteLine("Já possui esse CHIP cadastrado!");
+                Console.WriteLine("Digite outro CHIP: ");
+                this.Chip = int.Parse(Console.ReadLine());
+            }
 
             Console.WriteLine("Raça: ");
             this.Raca = Console.ReadLine();
@@ -87,7 +92,12 @@ namespace PONG_AdocaoAnimais
             Console.WriteLine("\nDigite o código do chip para localizar o animal: ");
             int chip = int.Parse(Console.ReadLine());
             //Tratamento se existe o chip
-
+            while (PossuirChipCadastrado(sqlConnection, this.Chip) == false)
+            {
+                Console.WriteLine("CHIP não encontrado!");
+                Console.WriteLine("Digite outro CHIP: ");
+                this.Chip = int.Parse(Console.ReadLine());
+            }
 
             SqlCommand cmd = new SqlCommand();
 
@@ -129,7 +139,12 @@ namespace PONG_AdocaoAnimais
             Console.WriteLine("\nDigite o código do CHIP para localizar o animal: ");
             int chip = int.Parse(Console.ReadLine());
 
-            //Fazer um SELECT para ver se existe o animal no cadastro
+            while (PossuirChipCadastrado(sqlConnection, chip) == false)
+            {
+                Console.WriteLine("CHIP não encontrado!");
+                Console.WriteLine("Digite outro CHIP: ");
+                this.Chip = int.Parse(Console.ReadLine());
+            }
 
             Console.WriteLine("\nDigite o número do campo que deseja editar: ");
             Console.WriteLine("1-Raça: ");
@@ -138,7 +153,12 @@ namespace PONG_AdocaoAnimais
             Console.WriteLine("4-Código Familia: ");
             int opc = int.Parse(Console.ReadLine());
 
-            //Tratamento opção invalida 
+            if(opc < 1 || opc > 4)
+            {
+                Console.WriteLine("Opção inválida!");
+                Console.WriteLine("Digite a opção novamente: "); 
+                opc = int.Parse(Console.ReadLine()); 
+            }
 
             switch (opc)
             {
@@ -218,18 +238,23 @@ namespace PONG_AdocaoAnimais
             Console.WriteLine("Digite o CPF do futuro Tutor: ");
             string cpf = Console.ReadLine();
 
-            while(pessoa.PossuirCPFCadastrado(sqlConnection, cpf) == false)
+            while (pessoa.PossuirCPFCadastrado(sqlConnection, cpf) == false)
             {
                 Console.WriteLine("CPF não encontrado!");
                 Console.WriteLine("Digite outro CPF:");
                 cpf = Console.ReadLine();
             }
 
-
+            //Tratamento: SELECT para ver se possui chip
             Console.WriteLine("Digite o CHIP do Animal: ");
             int chip = int.Parse(Console.ReadLine());
 
-            //Tratamento: SELECT para ver se possui chip
+            while(PossuirChipCadastrado(sqlConnection, chip) == false)
+            {
+                Console.WriteLine("CHIP não encontrado!");
+                Console.WriteLine("Digite outro CHIP: ");
+                chip = int.Parse(Console.ReadLine());
+            }
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "UPDATE Animal SET CPF = @CPF WHERE Animal.CHIP = @CHIP;";
@@ -280,5 +305,36 @@ namespace PONG_AdocaoAnimais
             }
 
         }
+
+        public bool PossuirChipCadastrado(SqlConnection sqlConnection, int chip)
+        {
+            SqlCommand cmd = new SqlCommand();
+
+            cmd.CommandText = "SELECT CHIP FROM Animal WHERE CHIP = @CHIP";
+            cmd.Parameters.AddWithValue("@CHIP", System.Data.SqlDbType.VarChar).Value = chip;
+
+            cmd.Connection = sqlConnection;
+            cmd.ExecuteNonQuery();
+
+            bool possuiChipCadastrado = false;
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+
+                while (reader.Read())
+                {
+                    if (reader.IsDBNull(0))
+                    {
+                        possuiChipCadastrado = false;
+                    }
+
+                    else
+                    {
+                        possuiChipCadastrado = true;
+                    }
+                }
+            }
+            return possuiChipCadastrado;
+        }
     }
 }
+
