@@ -31,7 +31,15 @@ namespace PONG_AdocaoAnimais
 
             Console.WriteLine("Cpf: ");
             this.Cpf = Console.ReadLine();
+
             //Tratamento: SELECT para ver se existe um cadastro com esse CPF.
+            while (this.PossuirCPFCadastrado(sqlConnection, Cpf) == true)
+            {
+                Console.WriteLine("Já possui CPF cadastrado.");
+                Console.WriteLine("Cpf: ");
+                this.Cpf = Console.ReadLine();
+            }
+
 
             Console.WriteLine("Sexo(M/F): ");
             this.Sexo = char.Parse(Console.ReadLine());
@@ -63,7 +71,15 @@ namespace PONG_AdocaoAnimais
         public void ConsultarPessoa(SqlConnection sqlConnection)
         {
             Console.WriteLine("\nDigite o CPF: ");
-            string Cpf = Console.ReadLine();
+            string cpf = Console.ReadLine();
+
+            //Tratamento: SELECT para ver se existe um cadastro com esse CPF.
+            while (PossuirCPFCadastrado(sqlConnection, cpf) == false)
+            {
+                Console.WriteLine("CPF não encontrado!");
+                Console.WriteLine("Digite outro CPF:");
+                Cpf = Console.ReadLine();
+            }
 
             SqlCommand cmd = new SqlCommand();
 
@@ -71,7 +87,7 @@ namespace PONG_AdocaoAnimais
                 "Endereco.Bairro, Endereco.Numero, Endereco.Complemento, Endereco.CEP, Endereco.Cidade, Endereco.UF FROM Pessoa, Endereco " +
                 "WHERE Pessoa.Cod_Endereco = Endereco.Cod_Endereco AND Pessoa.CPF = @CPF";
 
-            cmd.Parameters.AddWithValue("@CPF", System.Data.SqlDbType.VarChar).Value = Cpf;
+            cmd.Parameters.AddWithValue("@CPF", System.Data.SqlDbType.VarChar).Value = cpf;
 
             cmd.Connection = sqlConnection;
             cmd.ExecuteNonQuery();
@@ -101,9 +117,17 @@ namespace PONG_AdocaoAnimais
 
             Console.WriteLine("\nDigite o CPF para localizar o Cadastro : ");
             string cpf = Console.ReadLine();
+
+            //Tratamento: SELECT para ver se existe um cadastro com esse CPF.
+            while (PossuirCPFCadastrado(sqlConnection, cpf) == false)
+            {
+                Console.WriteLine("CPF não encontrado!");
+                Console.WriteLine("Digite outro CPF:");
+                cpf = Console.ReadLine();
+            }
+
             int opc;
 
-            // Fazer um SELECT para ver se existe o cadastro 
             do
             {
 
@@ -317,5 +341,36 @@ namespace PONG_AdocaoAnimais
                 cmd.ExecuteNonQuery();
             }
         }
+
+        public bool PossuirCPFCadastrado(SqlConnection sqlConnection, string Cpf)
+        {
+            SqlCommand cmd = new SqlCommand();
+
+            cmd.CommandText = "SELECT CPF FROM Pessoa WHERE CPF = @CPF";
+            cmd.Parameters.AddWithValue("@CPF", System.Data.SqlDbType.VarChar).Value = Cpf;
+
+            cmd.Connection = sqlConnection;
+            cmd.ExecuteNonQuery();
+
+            bool possuiCpfCadastrado = false;
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+
+                while (reader.Read())
+                {
+                    if (reader.IsDBNull(0))
+                    {
+                        possuiCpfCadastrado = false;
+                    }
+
+                    else
+                    {
+                        possuiCpfCadastrado = true;
+                    }
+                }
+            }
+            return possuiCpfCadastrado;
+        }
+
     }
 }

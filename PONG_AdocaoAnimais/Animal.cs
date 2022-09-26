@@ -65,6 +65,7 @@ namespace PONG_AdocaoAnimais
 
             Console.WriteLine("Código Familia: ");
             this.Cod_Familia = int.Parse(Console.ReadLine());
+            //Tratamento: SELECT para ver se codigo existe
 
             //Inserindo o animal na tabela Animal
             SqlCommand cmd = new SqlCommand();
@@ -86,6 +87,7 @@ namespace PONG_AdocaoAnimais
             Console.WriteLine("\nDigite o código do chip para localizar o animal: ");
             int chip = int.Parse(Console.ReadLine());
             //Tratamento se existe o chip
+
 
             SqlCommand cmd = new SqlCommand();
 
@@ -211,13 +213,23 @@ namespace PONG_AdocaoAnimais
 
         }
 
-        public void AdotarAnimal(SqlConnection sqlConnection)
+        public void AdotarAnimal(SqlConnection sqlConnection, Pessoa pessoa)
         {
             Console.WriteLine("Digite o CPF do futuro Tutor: ");
             string cpf = Console.ReadLine();
 
+            while(pessoa.PossuirCPFCadastrado(sqlConnection, cpf) == false)
+            {
+                Console.WriteLine("CPF não encontrado!");
+                Console.WriteLine("Digite outro CPF:");
+                cpf = Console.ReadLine();
+            }
+
+
             Console.WriteLine("Digite o CHIP do Animal: ");
             int chip = int.Parse(Console.ReadLine());
+
+            //Tratamento: SELECT para ver se possui chip
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "UPDATE Animal SET CPF = @CPF WHERE Animal.CHIP = @CHIP;";
@@ -229,10 +241,17 @@ namespace PONG_AdocaoAnimais
             Console.WriteLine("\nAdoção efetuada com sucesso!");
         }
 
-        public void ConsultarAdocao(SqlConnection sqlConnection)
+        public void ConsultarAdocao(SqlConnection sqlConnection, Pessoa pessoa)
         {
             Console.WriteLine("Digite o CPF do Tutor: ");
             string cpf = Console.ReadLine();
+
+            while (pessoa.PossuirCPFCadastrado(sqlConnection, cpf) == false)
+            {
+                Console.WriteLine("CPF não encontrado!");
+                Console.WriteLine("Digite outro CPF:");
+                cpf = Console.ReadLine();
+            }
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "SELECT Pessoa.Nome, Pessoa.CPF, Animal.CHIP, Animal.Raca, Animal.Sexo, Animal.Nome, Animal.Cod_Familia, Familia.Tipo " +
