@@ -146,7 +146,7 @@ namespace PONG_AdocaoAnimais
                             break;
                     }
 
-                } while (opcAdocao > 0 && opcAdocao < 4);
+                } while (opcAdocao > 0 && opcAdocao < 6);
             }
         }
     }
